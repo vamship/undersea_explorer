@@ -8,8 +8,9 @@ static final int CELL_HEIGHT = 15;
 
 static final int UPDATE_FREQUENCY = 1;
 
-static final int TOP_OFFSET = CELL_HEIGHT * 10;
-static final int LEFT_OFFSET = 0;
+static final int HEADER_HEIGHT = CELL_HEIGHT * 10;
+static final int FOOTER_HEIGHT = CELL_HEIGHT * 2;
+static final int LEFT_BAR_WIDTH = 0;
 
 final color SEA_COLOR = color(0x48, 0xA1, 0xC1);
 final color GRID_LINE_COLOR = color(0x62, 0x90, 0xB0);
@@ -29,7 +30,7 @@ final color PLAYER_3_SUB_COLOR = color(0x7B, 0x64, 0xA5);
 final color PLAYER_4_SUB_COLOR = color(0x41, 0x84, 0x46);
 
 void settings() {
-  size(COL_COUNT * CELL_WIDTH + LEFT_OFFSET, ROW_COUNT * CELL_HEIGHT + TOP_OFFSET);
+  size(COL_COUNT * CELL_WIDTH + LEFT_BAR_WIDTH, ROW_COUNT * CELL_HEIGHT + HEADER_HEIGHT + FOOTER_HEIGHT);
 }
 
 void setup() {
@@ -49,8 +50,10 @@ void setup() {
 }
 
 void draw() {
+  drawHeader();
   drawGrid();
-  showScores();
+  drawFooter();
+  
   if (millis() - timer > UPDATE_FREQUENCY) {
     timer = millis();
     world.update();
@@ -68,15 +71,15 @@ void drawGrid() {
 
 
       fill(cellColor);
-      rect(col * CELL_WIDTH + LEFT_OFFSET,
-        row * CELL_HEIGHT + TOP_OFFSET,
-        (col + 1) * CELL_WIDTH + LEFT_OFFSET,
-        (row + 1) * CELL_HEIGHT + TOP_OFFSET);
+      rect(col * CELL_WIDTH + LEFT_BAR_WIDTH,
+        row * CELL_HEIGHT + HEADER_HEIGHT,
+        (col + 1) * CELL_WIDTH + LEFT_BAR_WIDTH,
+        (row + 1) * CELL_HEIGHT + HEADER_HEIGHT);
     }
   }
 }
 
-void showScores() {
+void drawHeader() {
   int SCORE_TITLE_OFFSET = (int)(COL_COUNT * 0.6 * CELL_WIDTH);
   int SCORE_VALUE_OFFSET = (int)(COL_COUNT * 0.3 * CELL_WIDTH);
 
@@ -85,7 +88,7 @@ void showScores() {
   ScoreRecord[] scores = world.getScores();
 
   fill(255, 255, 255);
-  rect(0, 0, COL_COUNT * CELL_WIDTH, TOP_OFFSET);
+  rect(0, 0, COL_COUNT * CELL_WIDTH, HEADER_HEIGHT);
 
   fill(0, 0, 128);
   textSize(18);
@@ -94,6 +97,12 @@ void showScores() {
     text(record.score, x + SCORE_VALUE_OFFSET, y);
     y += CELL_HEIGHT * 2;
   }
+}
+
+void drawFooter() {
+  fill(255, 255, 255);
+  rect(0, ROW_COUNT * CELL_HEIGHT + HEADER_HEIGHT, 
+      COL_COUNT * CELL_WIDTH, FOOTER_HEIGHT);
 }
 
 color getCellColor(Cell cell) {
