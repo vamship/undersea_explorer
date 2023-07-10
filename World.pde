@@ -1,4 +1,4 @@
-static final int SONAR_RANGE = 2; //<>//
+static final int SONAR_RANGE = 2;
 static final int SALVAGE_RETRIVAL_RANGE = 1;
 static final int SALVAGE_DEPOSIT_RANGE = 1;
 static final int MAX_MOVE_COL_INCREMENT = 1;
@@ -19,7 +19,7 @@ class World {
    * @param maxRows The number of rows in the grid.
    * @param maxCols The number of columns in the grid.
    */
-  public World(int maxRows, int maxCols) {
+  public World(int maxCols, int maxRows) {
     this.maxRows = maxRows;
     this.maxCols = maxCols;
     this.grid = new Cell[maxCols][maxRows];
@@ -79,7 +79,7 @@ class World {
     }
 
     for (Position2D coordinates : positionList) {
-      Cell cell = this.grid[coordinates.col][coordinates.row];
+      Cell cell = this.grid[coordinates.col][coordinates.row]; //<>//
       cell.occupy(element);
     }
     return true;
@@ -123,7 +123,7 @@ class World {
     Position2D[] newGeometry = element.getGeometry(newPosition);
 
     this.emptyCells(oldGeometry, element);
-    if (this.canOccupyCells(newGeometry, element)) {
+    if (this.canOccupyCells(newGeometry, element)) { //<>//
       this.occupyCells(newGeometry, element);
       element.moveRelative(deltaStep);
     } else {
@@ -239,11 +239,11 @@ class World {
   /**
    * Gets the cell at the specified coordinates.
    *
-   * @param row The row of the cell to get.
    * @param col The column of the cell to get.
+   * @param row The row of the cell to get.
    * @return The cell at the specified coordinates.
    */
-  public Cell getCell(int row, int col) {
+  public Cell getCell(int col, int row) {
     return this.grid[col][row];
   }
 
