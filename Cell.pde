@@ -1,5 +1,5 @@
 /**
- * Represents a cell on the grid.
+ * Represents a read only cell on the grid.
  */
 interface ICell {
   
@@ -30,6 +30,26 @@ interface ICell {
    * @return True if the cell has an obstacle, false otherwise.
    */
   public boolean hasObstacle();
+
+  /**
+   * Gets a reference any player submersible that might be occupying the cell.
+   */
+  public Submersible getPlayer();
+
+  /**
+   * Gets a reference any salvage ship that might be occupying the cell.
+   */
+  public SalvageShip getSalvageShip();
+
+  /**
+   * Gets a reference any obstacle that might be occupying the cell.
+   */
+  public Obstacle getObstacle();
+
+  /**
+   * Gets a reference any salvage that might be occupying the cell.
+   */
+  public Salvage getSalvage();
 }
 
 /**
@@ -37,78 +57,154 @@ interface ICell {
  * or more elements.
  */
 class Cell implements ICell {
-  private int contents;
-  private Submersible submersible;
+  private Submersible playerSub;
   private SalvageShip salvageShip;
-  /* private Obstacle obstacle; */
+  private Obstacle obstacle;
   private Salvage salvage;
 
   /**
    * Initializes a new Cell with default values.
    */
   public Cell() {
-    this.contents = 0x00;
+    this.playerSub = null;
+    this.salvageShip = null;
+    this.obstacle = null;
+    this.salvage = null;
+  }
+
+  /**
+   * @override
+   */
+  public Submersible getPlayer() {
+      return this.playerSub;
+  }
+
+  /**
+   * @override
+   */
+  public SalvageShip getSalvageShip() {
+    return this.salvageShip;
+  }
+
+  /**
+   * @override
+   */
+  public Obstacle getObstacle() {
+    return this.obstacle;
+  }
+
+  /**
+   * @override
+   */
+  public Salvage getSalvage() {
+    return this.salvage;
   }
 
   /**
    * @override
    */
   public boolean hasSalvage() {
-    return (this.contents & ElementType.SALVAGE) != 0;
+    return this.salvage != null;
   }
 
   /**
    * @override
    */
   public boolean hasPlayer() {
-    return (this.contents & ElementType.PLAYER_SUB) != 0;
+    return this.playerSub != null;
   }
 
   /**
    * @override
    */
   public boolean hasSalvageShip() {
-    return (this.contents & ElementType.SALVAGE_SHIP) != 0;
+    return this.salvageShip != null;
   }
 
   /**
    * @override
    */
   public boolean hasObstacle() {
-    return (this.contents & ElementType.OBSTACLE) != 0;
+    return this.obstacle != null;
   }
 
   /**
-   * Checks if the cell can be occupied by an element of the given type.
+   * Checks if the cell can be occupied by an element.
    *
    * @param type The element to check for.
    * @return True if the cell can be occupied by the given element type.
    */
   public boolean canBeOccupied(Element element) {
-    return (this.contents & element.getType()) == 0;
+    switch(element.getType()) {
+        case ElementType.SALVAGE:
+          return this.salvage == null
+              && this.obstacle == null
+              && this.playerSub == null;
+        case ElementType.SALVAGE_SHIP:
+          return this.salvageShip == null
+              && this.obstacle == null
+              && this.playerSub == null;
+        case ElementType.PLAYER_SUB:
+          return this.salvageShip == null
+              && this.obstacle == null
+              && this.salvage == null;
+        case ElementType.OBSTACLE:
+          return this.salvageShip == null
+              && this.playerSub == null
+              && this.salvage == null;
+        default:
+          return false;
+    }
   }
 
   /**
-   * Occupies the cell using an element of the given type.
+   * Occupies the cell using an element.
    *
    * @param type The element to check for.
    * @return True if the cell was successfully occupied, false otherwise.
    */
   public boolean occupy(Element element) {
-    if (!this.canBeOccupied(element.getType())) {
+    if (!this.canBeOccupied(element)) {
       return false;
     }
-
-    this.contents |= type;
+    switch(element.getType()) {
+        case ElementType.SALVAGE:
+          this.salvage = (Salvage) element;
+          break;
+        case ElementType.SALVAGE_SHIP:
+          this.salvageShip = (SalvageShip) element;
+          break;
+        case ElementType.PLAYER_SUB:
+          this.playerSub = (Submersible) element;
+          break;
+        case ElementType.OBSTACLE:
+          this.obstacle = (Obstacle) element;
+          break;
+        default:
+          return false;
+    }
     return true;
   }
 
   /**
-   * Empties the cell of the given element type.
+   * Empties the cell of the given element.
    *
    * @param type The type of element to empty the cell of.
    */
   public void empty(int type) {
-    this.contents &= ~type;
+    switch(element.getType()) {
+        case ElementType.SALVAGE:
+          this.salvage = null;
+          break;
+        case ElementType.SALVAGE_SHIP:
+          this.salvageShip = null;
+          break;
+        case ElementType.PLAYER_SUB:
+          this.playerSub = null;
+          break;
+        case ElementType.OBSTACLE:
+          this.obstacle = null;
+          break;
+    }
   }
 }
