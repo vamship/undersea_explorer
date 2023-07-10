@@ -6,7 +6,7 @@ static final int COL_COUNT = 64;
 static final int CELL_WIDTH = 15;
 static final int CELL_HEIGHT = 15;
 
-static final int UPDATE_FREQUENCY = 1000;
+static final int UPDATE_FREQUENCY = 1;
 
 static final int TOP_OFFSET = CELL_HEIGHT * 10;
 static final int LEFT_OFFSET = 0;
@@ -40,7 +40,7 @@ void setup() {
   world.addElement(new Salvage("salvage-1", 40, 20));
   world.addElement(new Salvage("salvage-1", 20, 40));
 
-  world.addElement(new Submersible(PLAYER_1_SUB_NAME, 9, 9));
+  world.addElement(new TestSubmersible(PLAYER_1_SUB_NAME, 0, 0));
   world.addElement(new Submersible(PLAYER_2_SUB_NAME, 29, 29));
   world.addElement(new Submersible(PLAYER_3_SUB_NAME, 19, 39));
   world.addElement(new Submersible(PLAYER_4_SUB_NAME, 19, 19));
