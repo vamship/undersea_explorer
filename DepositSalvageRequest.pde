@@ -1,7 +1,7 @@
 /**
  * Request to deposit salvage on a salvage ship at a given position.
  */
-class DepositSalvageRequest extends ElementRequest<String> {
+class DepositSalvageRequest extends ElementRequest<Position2D> {
   Position2D salvagePosition;
 
   /**

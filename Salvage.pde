@@ -1,9 +1,10 @@
-/** //<>//
+static final int MAX_HEIGHT = 4; //<>//
+static final int MAX_WIDTH = 4;
+static final float SALVAGE_PROBABILITY = 100;
+/**
  * A game element that represents salvage.
  */
 class Salvage extends Element {
-  final int MAX_HEIGHT = 4;
-  final int MAX_WIDTH = 4;
   private Position2D[] rawGeometry;
 
   /**
@@ -21,8 +22,7 @@ class Salvage extends Element {
 
     for (int colIndex = 0; colIndex < MAX_WIDTH; colIndex++) {
       for (int rowIndex = 0; rowIndex < MAX_HEIGHT; rowIndex++) {
-        //float distance = sqrt(pow(col - colIndex, 2) + pow(row - rowIndex, 2));
-        if (random(100) > 50.0) {
+        if (random(100) > 100.0 - SALVAGE_PROBABILITY) {
           posList.add(new Position2D(colIndex, rowIndex));
         }
       }
@@ -59,7 +59,7 @@ class Salvage extends Element {
    * @return True if an item could be salvaged, false otherwise.
    */
   public boolean retrieveSalvage(Position2D position) {
-    for (int index = 0; index<this.rawGeometry.length; index++) { //<>//
+    for (int index = 0; index<this.rawGeometry.length; index++) {
       Position2D pos = this.rawGeometry[index].translate(this.getPosition());
       if (pos.equals(position)) {
         this.removeSalvage(index);

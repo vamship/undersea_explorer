@@ -64,8 +64,8 @@ class Submersible extends Element {
    */
   public ElementRequest update() {
     //return new SonarRequest();
-    return new RetrieveSalvageRequest(
-        new Position2D(3, 4).translate(this.getPosition())
+    return new DepositSalvageRequest(
+        new Position2D(1, 1).translate(this.getPosition())
     );
   }
   

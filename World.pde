@@ -1,4 +1,4 @@
-static final int SONAR_RANGE = 2;
+static final int SONAR_RANGE = 2; //<>//
 static final int SALVAGE_RETRIVAL_RANGE = 1;
 static final int SALVAGE_DEPOSIT_RANGE = 1;
 static final int MAX_MOVE_COL_INCREMENT = 1;
@@ -12,7 +12,7 @@ class World {
   private int maxCols;
   private Cell[][] grid;
   private ArrayList<Element> elements;
-  private HashMap<Element, Integer> scores;
+  private HashMap<String, Integer> scores;
 
   /**
    * Creates a new grid with the specified number of rows and columns.
@@ -24,7 +24,7 @@ class World {
     this.maxCols = maxCols;
     this.grid = new Cell[maxCols][maxRows];
     this.elements = new ArrayList<Element>();
-    this.scores = new HashMap<Element, Integer>();
+    this.scores = new HashMap<String, Integer>();
 
     this.clear();
   }
@@ -115,9 +115,9 @@ class World {
   private void processRequest(Element element, MoveRequest request) {
     Position2D deltaStep = request.getData();
     deltaStep = new Position2D(
-                  min(deltaStep.col,MAX_MOVE_COL_INCREMENT),
-                  min(deltaStep.row, MAX_MOVE_ROW_INCREMENT));
-                  
+      min(deltaStep.col, MAX_MOVE_COL_INCREMENT),
+      min(deltaStep.row, MAX_MOVE_ROW_INCREMENT));
+
     Position2D newPosition = element.getPosition().translate(deltaStep);
     Position2D[] oldGeometry = element.getGeometry();
     Position2D[] newGeometry = element.getGeometry(newPosition);
@@ -142,17 +142,19 @@ class World {
     Position2D salvagePos = request.getData();
     Position2D elementPos = element.getPosition();
 
-    if(abs(salvagePos.col - elementPos.col) > SALVAGE_RETRIVAL_RANGE ||
-       abs(salvagePos.row - elementPos.row) > SALVAGE_RETRIVAL_RANGE) {
+    if (abs(salvagePos.col - elementPos.col) > SALVAGE_RETRIVAL_RANGE ||
+      abs(salvagePos.row - elementPos.row) > SALVAGE_RETRIVAL_RANGE) {
+      println("Attempt to retrieve salvage from too far (" + element.getName() + ")");
       return;
     }
 
     for (Element ele : this.elements) {
       if (ele instanceof Salvage) {
         Salvage salvageElement = (Salvage)ele;
-        if(salvageElement.retrieveSalvage(salvagePos)) {
+        if (salvageElement.retrieveSalvage(salvagePos)) {
           ((Submersible)element).addSalvage();
           this.emptyCells(new Position2D[] { salvagePos }, ElementType.SALVAGE);
+          return;
         }
       }
     }
@@ -169,17 +171,20 @@ class World {
     Position2D salvagePos = request.getData();
     Position2D elementPos = element.getPosition();
 
-    if(abs(salvagePos.col - elementPos.col) > SALVAGE_DEPOSIT_RANGE ||
-       abs(salvagePos.row - elementPos.row) > SALVAGE_DEPOSIT_RANGE) {
+    if (abs(salvagePos.col - elementPos.col) > SALVAGE_DEPOSIT_RANGE ||
+      abs(salvagePos.row - elementPos.row) > SALVAGE_DEPOSIT_RANGE) {
+      println("Attempt to deposit salvage from too far (" + element.getName() + ")");
       return;
     }
 
     for (Element ele : this.elements) {
       if (ele instanceof SalvageShip) {
         SalvageShip salvageShipElement = (SalvageShip)ele;
-        if(salvageShipElement.depositSalvage(salvagePos)) {
-          ((Submersible)element).redeemSalvage();
-          this.scores.put(element, this.scores.get(element));
+        if (salvageShipElement.canDepositSalvage(salvagePos)) {
+          int salvageCount = ((Submersible)element).redeemSalvage();
+          String name = element.getName();
+          this.scores.put(name, this.scores.get(name) + salvageCount);
+          return;
         }
       }
     }
@@ -258,9 +263,9 @@ class World {
     Position2D[] geometry = element.getGeometry();
     int type = element.getType();
 
-    if(element instanceof Submersible) {
+    if (element instanceof Submersible) {
       Submersible submersible = (Submersible)element;
-      this.scores.put(submersible, 0);
+      this.scores.put(submersible.getName(), 0);
     }
 
     if (!this.canOccupyCells(geometry, type)) {
@@ -270,6 +275,13 @@ class World {
     this.occupyCells(geometry, type);
     this.elements.add(element);
     return true;
+  }
+  
+  /**
+   * Returns the scores associated with the submersibles.
+   */
+  public HashMap<String, Integer> getScores() {
+    return this.scores;
   }
 
   /**

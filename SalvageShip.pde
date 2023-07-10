@@ -62,8 +62,8 @@ class SalvageShip extends Element {
    * @param position The position at which the ship is expected to be.
    * @return True if an item could be deposited, false otherwise.
    */
-  public boolean depositSalvage(Position2D position) {
-    for (int index = 0; index<this.rawGeometry.length; index++) { //<>//
+  public boolean canDepositSalvage(Position2D position) {
+    for (int index = 0; index<this.rawGeometry.length; index++) {
       Position2D pos = this.rawGeometry[index].translate(this.getPosition());
       if (pos.equals(position)) {
         return true;
