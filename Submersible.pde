@@ -63,27 +63,6 @@ class Submersible extends Element {
    * @override
    */
   public ElementRequest update() {
-    //return new SonarRequest();
-    return new DepositSalvageRequest(
-        new Position2D(1, 1).translate(this.getPosition())
-    );
-  }
-  
-  /**
-   * @override
-   */
-  public void reportSonarResults(IReadonlyCell[][] scanResults) {
-    for (int colIndex = 0; colIndex < scanResults.length; colIndex++) {
-      for (int rowIndex = 0; rowIndex < scanResults[colIndex].length; rowIndex++) {
-        IReadonlyCell cell = scanResults[colIndex][rowIndex];
-        if(cell != null) {
-          print(" (" + colIndex + ", " + rowIndex + ") " + cell.hasSalvage());
-        } else {
-          print (" (x, x) NA   ");
-        }
-      }
-      println("");
-    }
-    println("--");
+    return new EmptyRequest();
   }
 }
