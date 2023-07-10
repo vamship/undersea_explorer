@@ -38,6 +38,10 @@ interface ICell {
  */
 class Cell implements ICell {
   private int contents;
+  private Submersible submersible;
+  private SalvageShip salvageShip;
+  /* private Obstacle obstacle; */
+  private Salvage salvage;
 
   /**
    * Initializes a new Cell with default values.
@@ -77,21 +81,21 @@ class Cell implements ICell {
   /**
    * Checks if the cell can be occupied by an element of the given type.
    *
-   * @param type The type of element to check for.
+   * @param type The element to check for.
    * @return True if the cell can be occupied by the given element type.
    */
-  public boolean canBeOccupied(int type) {
-    return (this.contents & type) == 0;
+  public boolean canBeOccupied(Element element) {
+    return (this.contents & element.getType()) == 0;
   }
 
   /**
    * Occupies the cell using an element of the given type.
    *
-   * @param type The type of element to occupy the cell with.
+   * @param type The element to check for.
    * @return True if the cell was successfully occupied, false otherwise.
    */
-  public boolean occupy(int type) {
-    if (!this.canBeOccupied(type)) {
+  public boolean occupy(Element element) {
+    if (!this.canBeOccupied(element.getType())) {
       return false;
     }
 

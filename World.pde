@@ -44,17 +44,17 @@ class World {
    * Checks if the specified cells can be occupied.
    *
    * @param positionList The list of coordinates to check.
-   * @param type The type of object to occupy the cells with.
+   * @param element The element that will occupy the cells.
    * @return True if all cells can be occupied, false otherwise.
    */
-  private boolean canOccupyCells(Position2D[] positionList, int type) {
+  private boolean canOccupyCells(Position2D[] positionList, Element element) {
     for (Position2D coordinates : positionList) {
       if (!this.isInRange(coordinates.col, coordinates.row)) {
         return false;
       }
 
       Cell cell = this.grid[coordinates.col][coordinates.row];
-      if (!cell.canBeOccupied(type)) {
+      if (!cell.canBeOccupied(element)) {
         return false;
       }
     }
@@ -67,20 +67,20 @@ class World {
    * occupied.
    *
    * @param positionList The list of coordinates to occupy.
-   * @param type The type of object to occupy the cells with.
+   * @param element The element that will occupy the cells.
    * @return True if all cells were occupied, false otherwise.
    */
-  private boolean occupyCells(Position2D[] positionList, int type) {
+  private boolean occupyCells(Position2D[] positionList, Element element) {
     for (Position2D coordinates : positionList) {
       Cell cell = this.grid[coordinates.col][coordinates.row];
-      if (!cell.canBeOccupied(type)) {
+      if (!cell.canBeOccupied(element)) {
         return false;
       }
     }
 
     for (Position2D coordinates : positionList) {
       Cell cell = this.grid[coordinates.col][coordinates.row];
-      cell.occupy(type);
+      cell.occupy(element.getType());
     }
     return true;
   }
@@ -123,11 +123,11 @@ class World {
     Position2D[] newGeometry = element.getGeometry(newPosition);
 
     this.emptyCells(oldGeometry, element.getType());
-    if (this.canOccupyCells(newGeometry, element.getType())) {
-      this.occupyCells(newGeometry, element.getType());
+    if (this.canOccupyCells(newGeometry, element)) {
+      this.occupyCells(newGeometry, element);
       element.moveRelative(deltaStep);
     } else {
-      this.occupyCells(oldGeometry, element.getType());
+      this.occupyCells(oldGeometry, element);
     }
   }
 
@@ -268,11 +268,11 @@ class World {
       this.scores.put(submersible.getName(), 0);
     }
 
-    if (!this.canOccupyCells(geometry, type)) {
+    if (!this.canOccupyCells(geometry, element)) {
       return false;
     }
 
-    this.occupyCells(geometry, type);
+    this.occupyCells(geometry, element);
     this.elements.add(element);
     return true;
   }
