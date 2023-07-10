@@ -80,7 +80,7 @@ class World {
 
     for (Position2D coordinates : positionList) {
       Cell cell = this.grid[coordinates.col][coordinates.row];
-      cell.occupy(element.getType());
+      cell.occupy(element);
     }
     return true;
   }
@@ -122,7 +122,7 @@ class World {
     Position2D[] oldGeometry = element.getGeometry();
     Position2D[] newGeometry = element.getGeometry(newPosition);
 
-    this.emptyCells(oldGeometry, element.getType());
+    this.emptyCells(oldGeometry, element);
     if (this.canOccupyCells(newGeometry, element)) {
       this.occupyCells(newGeometry, element);
       element.moveRelative(deltaStep);
@@ -148,15 +148,11 @@ class World {
       return;
     }
 
-    for (Element ele : this.elements) {
-      if (ele instanceof Salvage) {
-        Salvage salvageElement = (Salvage)ele;
-        if (salvageElement.retrieveSalvage(salvagePos)) {
-          ((Submersible)element).addSalvage();
-          this.emptyCells(new Position2D[] { salvagePos }, ElementType.SALVAGE);
-          return;
-        }
-      }
+    Cell targetCell = this.grid[salvagePos.col][salvagePos.row];
+    if (targetCell.hasSalvage()) {
+      Salvage salvageElement = targetCell.getSalvage();
+      salvageElement.retrieveSalvage(salvagePos);
+      this.emptyCells(new Position2D[] { salvagePos }, salvageElement);
     }
   }
 
@@ -168,25 +164,22 @@ class World {
    * @param request The salvage deposit request received from the element.
    */
   private void processRequest(Element element, DepositSalvageRequest request) {
-    Position2D salvagePos = request.getData();
+    Position2D shipPos = request.getData();
     Position2D elementPos = element.getPosition();
 
-    if (abs(salvagePos.col - elementPos.col) > SALVAGE_DEPOSIT_RANGE ||
-      abs(salvagePos.row - elementPos.row) > SALVAGE_DEPOSIT_RANGE) {
+    if (abs(shipPos.col - elementPos.col) > SALVAGE_DEPOSIT_RANGE ||
+      abs(shipPos.row - elementPos.row) > SALVAGE_DEPOSIT_RANGE) {
       println("Attempt to deposit salvage from too far (" + element.getName() + ")");
       return;
     }
 
-    for (Element ele : this.elements) {
-      if (ele instanceof SalvageShip) {
-        SalvageShip salvageShipElement = (SalvageShip)ele;
-        if (salvageShipElement.canDepositSalvage(salvagePos)) {
-          int salvageCount = ((Submersible)element).redeemSalvage();
-          String name = element.getName();
-          this.scores.put(name, this.scores.get(name) + salvageCount);
-          return;
-        }
-      }
+    Cell targetCell = this.grid[shipPos.col][shipPos.row];
+    if (targetCell.hasSalvageShip()) {
+      SalvageShip salvageShipElement = targetCell.getSalvageShip();
+      salvageShipElement.canDepositSalvage(shipPos);
+      int salvageCount = ((Submersible)element).redeemSalvage();
+      String name = element.getName();
+      this.scores.put(name, this.scores.get(name) + salvageCount);
     }
   }
 
@@ -262,7 +255,6 @@ class World {
    */
   public boolean addElement(Element element) {
     Position2D[] geometry = element.getGeometry();
-    int type = element.getType();
 
     if (element instanceof Submersible) {
       Submersible submersible = (Submersible)element;
