@@ -202,14 +202,15 @@ class World {
     int width = (SONAR_RANGE * 2) + 1;
     int height = (SONAR_RANGE * 2) + 1;
 
-    ICell[][] scanResults = new ICell[width][height];
+    IReadonlyCell[][] scanResults = new IReadonlyCell[width][height];
 
     for (int colIndex = 0; colIndex < width; colIndex++) {
       for (int rowIndex = 0; rowIndex < height; rowIndex++) {
         int col = position.col + colIndex - 1;
         int row = position.row + rowIndex - 1;
 
-        ICell cell = this.isInRange(col, row)? this.grid[col][row]: null;
+        IReadonlyCell cell = this.isInRange(col, row)?
+                                this.grid[col][row]: null;
         scanResults[colIndex][rowIndex] = cell;
       }
     }

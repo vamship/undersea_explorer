@@ -46,7 +46,7 @@ abstract class Element {
    * @param scanResults The results of the SONAR scan, reported as a grid of cells
    * surrounding the element.
    */
-  public void reportSonarResults(ICell[][] scanResults) {
+  public void reportSonarResults(IReadonlyCell[][] scanResults) {
     // Do nothing here.
   }
 

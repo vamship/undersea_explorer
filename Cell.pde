@@ -1,7 +1,7 @@
 /**
  * Represents a read only cell on the grid.
  */
-interface ICell {
+interface IReadonlyCell {
   
   /**
    * Determines if the cell has any salvage pieces.
@@ -56,7 +56,7 @@ interface ICell {
  * Represents a single cell on the world grid. Each cell can be occupied by one
  * or more elements.
  */
-class Cell implements ICell {
+class Cell implements IReadonlyCell {
   private Submersible playerSub;
   private SalvageShip salvageShip;
   private Obstacle obstacle;

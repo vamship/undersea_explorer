@@ -72,10 +72,10 @@ class Submersible extends Element {
   /**
    * @override
    */
-  public void reportSonarResults(ICell[][] scanResults) {
+  public void reportSonarResults(IReadonlyCell[][] scanResults) {
     for (int colIndex = 0; colIndex < scanResults.length; colIndex++) {
       for (int rowIndex = 0; rowIndex < scanResults[colIndex].length; rowIndex++) {
-        ICell cell = scanResults[colIndex][rowIndex];
+        IReadonlyCell cell = scanResults[colIndex][rowIndex];
         if(cell != null) {
           print(" (" + colIndex + ", " + rowIndex + ") " + cell.hasSalvage());
         } else {
