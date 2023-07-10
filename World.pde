@@ -269,12 +269,19 @@ class World {
     this.elements.add(element);
     return true;
   }
-  
+
   /**
    * Returns the scores associated with the submersibles.
    */
-  public HashMap<String, Integer> getScores() {
-    return this.scores;
+  public ScoreRecord[] getScores() {
+    ScoreRecord[] scoreRecords = new ScoreRecord[this.scores.size()];
+
+    int index = 0;
+    for(String key : this.scores.keySet()) {
+        scoreRecords[index] = new ScoreRecord(key, this.scores.get(key));
+        index++;
+    }
+    return scoreRecords;
   }
 
   /**
