@@ -89,11 +89,11 @@ class World {
    * Empties the specified cells of the specified type of occupation.
    *
    * @param positionList The list of coordinates to empty.
-   * @param type The type of object to remove from the cells.
+   * @param element The element to remove from the cells.
    *
    * @return True if all cells were emptied, false otherwise.
    */
-  private void emptyCells(Position2D[] positionList, int type) {
+  private void emptyCells(Position2D[] positionList, Element element) {
     for (Position2D coordinates : positionList) {
       if (!this.isInRange(coordinates.col, coordinates.row)) {
 
@@ -102,7 +102,7 @@ class World {
         return;
       }
       Cell cell = this.grid[coordinates.col][coordinates.row];
-      cell.empty(type);
+      cell.empty(element);
     }
   }
 

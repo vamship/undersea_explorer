@@ -191,7 +191,7 @@ class Cell implements IReadonlyCell {
    *
    * @param type The type of element to empty the cell of.
    */
-  public void empty(int type) {
+  public void empty(Element element) {
     switch(element.getType()) {
         case ElementType.SALVAGE:
           this.salvage = null;
