@@ -231,7 +231,7 @@ class World {
   public void clear() {
     for (int colIndex = 0; colIndex < maxCols; colIndex++) {
       for (int rowIndex = 0; rowIndex < maxRows; rowIndex++) {
-        this.grid[colIndex][rowIndex] = new Cell();
+        this.grid[colIndex][rowIndex] = new Cell(new Position2D(colIndex, rowIndex));
       }
     }
   }
