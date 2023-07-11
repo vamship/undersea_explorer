@@ -28,12 +28,12 @@ skills. So pack your semicolons - we're going on an underwater adventure!
  - **Elements**: One of the items listed below. Not Earth, Fire, Wind, Water.
      1. **Salvage**: A piece of recoverable salvage from the bottom of the ocean
         that can be deposited with a salvage ship for points.
-     1. **Salvage Ship**: A collection point for salvaged elements picked up by
+     2. **Salvage Ship**: A collection point for salvaged elements picked up by
         submersibles.
-     1. **Obstacle**: A barrier that occupies space on the ocean all the way
+     3. **Obstacle**: A barrier that occupies space on the ocean all the way
         from the floor to the surface (yeah, I know - super realistic), but does
         nothing except block other things.
-     1. **Submersible**: A player programmed ship that can pick up salvage from
+     4. **Submersible**: A player programmed ship that can pick up salvage from
         the bottom of the ocean and deposit it at ships.
  - **Points**: Goodies that a player earns for returning a pieces of salvage to
      a ship.
@@ -42,13 +42,13 @@ skills. So pack your semicolons - we're going on an underwater adventure!
 
 The game generally follows the following broad steps:
 1. The world is initialized - all elements are created on the world.
-1. Each element (including player developed submersibles) are periodically
+2. Each element (including player developed submersibles) are periodically
    notified of an update by invoking the `update()` method. This allows each
    element to request some action to be taken by returning an `ElementRequest`
    object.
-1. The element states are updated - requests made by elements are fulfilled (if
+3. The element states are updated - requests made by elements are fulfilled (if
    possible)
-1. The cycle repeats
+4. The cycle repeats
 
 #### Making Requests
 
@@ -64,7 +64,7 @@ Possible actions are:
    return new EmptyRequest(); // Nuff said
    ```
 
-1. Move (MoveRequest): Request the element to be moved to one of the neigboring
+2. Move (MoveRequest): Request the element to be moved to one of the neigboring
    cells. If you request to move more than one step, the world will not oblige,
    and will only move you one step. It's a tough lesson kiddo - you don't always
    get what you want. Note that "one step" means that you'll move to any one of
@@ -79,7 +79,7 @@ Possible actions are:
 
    return new MoveRequest(-1, 0); // Move one column to the left
 
-   return new MoveRequest(-1, 1); // Move one step diagonally to the left top
+   return new MoveRequest(-1, 1); // Move one step diagonally to the left bottom
    ```
 
 1. SONAR Scan (SonarRequest): Request a scan of the immediate surroundings. Scan
@@ -112,7 +112,7 @@ Possible actions are:
    salvage ship, you will deposit the salvage. Easy dubs.
 
    ```
-   return new DepositSalvageRequest(-1, -1); // Try to pick up salvage from cell diagonally to the bottom and left
+   return new DepositSalvageRequest(-1, -1); // Try to deposit salvage from cell diagonally to the bottom and left
    ```
 
 ## Getting Started
@@ -132,19 +132,19 @@ and enthusiasm.
 ### Prerequisites
 
 1. Download and install Processing from [here](https://processing.org/download).
-1. Ensure that you have git installed on your workstation. See
+2. Ensure that you have git installed on your workstation. See
    [git installation instructions](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
    for more information.
-1. Clone the project to an appropriate location on your workstation
+3. Clone the project to an appropriate location on your workstation
 ```
 git clone https://github.com/vamship/undersea_explorer
 ```
-1. Launch Processing and open the project:
+4. Launch Processing and open the project:
   - Start the Processing IDE
   - Click on File -> Open
   - Navigate to the folder that contains this project (cloned in the step above)
   - Click on `undersea_explorer.pde`
-1. Once the project has been loaded, run it by clicking on the "Play" button at
+5. Once the project has been loaded, run it by clicking on the "Play" button at
    the top left
 
 ## Coding Your Submersible
@@ -159,6 +159,8 @@ The simplest way to work on this project is to make modifications to the `Pillar
 of Autumn` submersible. You can do this by editing the `PillarOfAutumn.pde` file
 (you won't see the `.pde` extension when you're using the IDE), and making the
 changes that you want to make.
+
+###### Rishi did all of this. Copyright 2023.
 
 > TODO: Advanced use cases and scenarios still need to be documented. It's
 > coming soon
