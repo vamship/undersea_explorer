@@ -61,12 +61,19 @@ class Position2D {
   public Position2D clone() {
     return new Position2D(this.col, this.row);
   }
-  
+
   /**
    * @override
    */
   public boolean equals(Position2D pos) {
-    return pos != null && 
+    return pos != null &&
       (pos.col == this.col && pos.row == this.row);
+  }
+
+  /**
+   * @override
+   */
+  public String toString() {
+    return "(" + this.col + ", " + this.row + ")";
   }
 }
