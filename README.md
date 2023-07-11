@@ -28,12 +28,12 @@ skills. So pack your semicolons - we're going on an underwater adventure!
  - **Elements**: One of the items listed below. Not Earth, Fire, Wind, Water.
      1. **Salvage**: A piece of recoverable salvage from the bottom of the ocean
         that can be deposited with a salvage ship for points.
-     2. **Salvage Ship**: A collection point for salvaged elements picked up by
+     1. **Salvage Ship**: A collection point for salvaged elements picked up by
         submersibles.
-     3. **Obstacle**: A barrier that occupies space on the ocean all the way
+     1. **Obstacle**: A barrier that occupies space on the ocean all the way
         from the floor to the surface (yeah, I know - super realistic), but does
         nothing except block other things.
-     4. **Submersible**: A player programmed ship that can pick up salvage from
+     1. **Submersible**: A player programmed ship that can pick up salvage from
         the bottom of the ocean and deposit it at ships.
  - **Points**: Goodies that a player earns for returning a pieces of salvage to
      a ship.
@@ -42,13 +42,13 @@ skills. So pack your semicolons - we're going on an underwater adventure!
 
 The game generally follows the following broad steps:
 1. The world is initialized - all elements are created on the world.
-2. Each element (including player developed submersibles) are periodically
+1. Each element (including player developed submersibles) are periodically
    notified of an update by invoking the `update()` method. This allows each
    element to request some action to be taken by returning an `ElementRequest`
    object.
-3. The element states are updated - requests made by elements are fulfilled (if
+1. The element states are updated - requests made by elements are fulfilled (if
    possible)
-4. The cycle repeats
+1. The cycle repeats
 
 #### Making Requests
 
@@ -64,7 +64,7 @@ Possible actions are:
    return new EmptyRequest(); // Nuff said
    ```
 
-2. Move (MoveRequest): Request the element to be moved to one of the neigboring
+1. Move (MoveRequest): Request the element to be moved to one of the neigboring
    cells. If you request to move more than one step, the world will not oblige,
    and will only move you one step. It's a tough lesson kiddo - you don't always
    get what you want. Note that "one step" means that you'll move to any one of
