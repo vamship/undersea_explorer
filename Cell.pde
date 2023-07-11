@@ -2,28 +2,35 @@
  * Represents a read only cell on the grid.
  */
 interface IReadonlyCell {
-  
+
+  /**
+   * Gets the position of the cell on the grid.
+   *
+   * @return The position of the cell
+   */
+  public Position2D getPosition();
+
   /**
    * Determines if the cell has any salvage pieces.
    *
    * @return True if the cell has salvage pieces, false otherwise.
    */
   public boolean hasSalvage();
-  
+
   /**
    * Determines if the cell has a player submersible
    *
    * @return True if the cell has a player submersible, false otherwise.
    */
   public boolean hasPlayer();
-  
+
   /**
    * Determines if the cell has a salvage ship.
    *
    * @return True if the cell has a salvage ship, false otherwise.
    */
   public boolean hasSalvageShip();
-  
+
   /**
    * Determines if the cell has an obstacle.
    *
@@ -61,15 +68,26 @@ class Cell implements IReadonlyCell {
   private SalvageShip salvageShip;
   private Obstacle obstacle;
   private Salvage salvage;
+  private final Position2D position;
 
   /**
    * Initializes a new Cell with default values.
+   *
+   * @param position The position of the cell in the grid.
    */
-  public Cell() {
+  public Cell(Position2D position) {
     this.playerSub = null;
     this.salvageShip = null;
     this.obstacle = null;
     this.salvage = null;
+    this.position = position;
+  }
+
+  /**
+   * @override
+   */
+  public Position2D getPosition() {
+      return this.position;
   }
 
   /**
