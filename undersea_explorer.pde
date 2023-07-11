@@ -1,10 +1,10 @@
 World world;
 int timer;
 
-static final int ROW_COUNT = 48;
-static final int COL_COUNT = 64;
-static final int CELL_WIDTH = 15;
-static final int CELL_HEIGHT = 15;
+static final int ROW_COUNT = 24;
+static final int COL_COUNT = 32;
+static final int CELL_WIDTH = 30;
+static final int CELL_HEIGHT = 30;
 
 static final int UPDATE_FREQUENCY = 1;
 
