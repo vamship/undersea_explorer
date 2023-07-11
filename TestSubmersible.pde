@@ -53,18 +53,12 @@ class TestSubmersible extends Submersible {
       this.dRow = 0;
     }
 
-
-    for (int colIndex = 0; colIndex < scanResults.length; colIndex++) {
-      for (int rowIndex = 0; rowIndex < scanResults[colIndex].length; rowIndex++) {
-        IReadonlyCell cell = scanResults[colIndex][rowIndex];
-        if (cell != null) {
-          print(" (" + colIndex + ", " + rowIndex + ") " + cell.hasPlayer());
-        } else {
-          print (" (" + colIndex + ", " + rowIndex + ") NA   ");
-        }
-      }
-      println("");
-    }
-    println("--");
+    //IChecker<IReadonlyCell, IReadonlyCell> shipChecker = (cell) -> cell.hasSalvageShip()?cell:null;
+    //Iterable<IReadonlyCell> results = collectItems(scanResults, shipChecker);
+    //for(IReadonlyCell cell: results) {
+    //  println(cell.getPosition(), " --> ", cell.hasSalvageShip());
+    //}
+    //println("Has salvage ship " + searchItems(scanResults, shipChecker));
+    printCells(scanResults);
   }
 }
