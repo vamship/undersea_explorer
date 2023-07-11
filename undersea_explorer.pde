@@ -35,17 +35,7 @@ void settings() {
 
 void setup() {
   world = new World(COL_COUNT, ROW_COUNT);
-  world.addElement(new SalvageShip("ship1", 10, 10, false));
-  world.addElement(new SalvageShip("ship2", 30, 30, true));
-  world.addElement(new Salvage("salvage-1", 20, 20));
-  world.addElement(new Salvage("salvage-1", 40, 20));
-  world.addElement(new Salvage("salvage-1", 20, 40));
-
-  world.addElement(new TestSubmersible(PLAYER_1_SUB_NAME, 0, 0));
-  world.addElement(new Submersible(PLAYER_2_SUB_NAME, 29, 29));
-  world.addElement(new Submersible(PLAYER_3_SUB_NAME, 19, 39));
-  world.addElement(new Submersible(PLAYER_4_SUB_NAME, 19, 19));
-
+  world.addElement(new PillarOfAutumn(0, 0));
   timer = millis();
 }
 
