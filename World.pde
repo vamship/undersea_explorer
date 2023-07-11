@@ -1,4 +1,4 @@
-static final int SONAR_RANGE = 2;
+static final int SONAR_RANGE = 1;
 static final int SALVAGE_RETRIVAL_RANGE = 1;
 static final int SALVAGE_DEPOSIT_RANGE = 1;
 static final int MAX_MOVE_COL_INCREMENT = 1;
