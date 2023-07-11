@@ -1,4 +1,4 @@
-static final int SONAR_RANGE = 1;
+static final int SONAR_RANGE = 1; //<>// //<>//
 static final int SALVAGE_RETRIVAL_RANGE = 1;
 static final int SALVAGE_DEPOSIT_RANGE = 1;
 static final int MAX_MOVE_COL_INCREMENT = 1;
@@ -79,7 +79,7 @@ class World {
     }
 
     for (Position2D coordinates : positionList) {
-      Cell cell = this.grid[coordinates.col][coordinates.row]; //<>//
+      Cell cell = this.grid[coordinates.col][coordinates.row];
       cell.occupy(element);
     }
     return true;
@@ -123,7 +123,7 @@ class World {
     Position2D[] newGeometry = element.getGeometry(newPosition);
 
     this.emptyCells(oldGeometry, element);
-    if (this.canOccupyCells(newGeometry, element)) { //<>//
+    if (this.canOccupyCells(newGeometry, element)) {
       this.occupyCells(newGeometry, element);
       element.moveRelative(deltaStep);
     } else {
@@ -151,8 +151,10 @@ class World {
     Cell targetCell = this.grid[salvagePos.col][salvagePos.row];
     if (targetCell.hasSalvage()) {
       Salvage salvageElement = targetCell.getSalvage();
-      salvageElement.retrieveSalvage(salvagePos);
-      this.emptyCells(new Position2D[] { salvagePos }, salvageElement);
+      if (salvageElement.retrieveSalvage(salvagePos)) {
+        ((Submersible)element).addSalvage();
+        this.emptyCells(new Position2D[] { salvagePos }, salvageElement);
+      };
     }
   }
 
@@ -176,10 +178,11 @@ class World {
     Cell targetCell = this.grid[shipPos.col][shipPos.row];
     if (targetCell.hasSalvageShip()) {
       SalvageShip salvageShipElement = targetCell.getSalvageShip();
-      salvageShipElement.canDepositSalvage(shipPos);
-      int salvageCount = ((Submersible)element).redeemSalvage();
-      String name = element.getName();
-      this.scores.put(name, this.scores.get(name) + salvageCount);
+      if (salvageShipElement.canDepositSalvage(shipPos)) {
+        int salvageCount = ((Submersible)element).redeemSalvage();
+        String name = element.getName();
+        this.scores.put(name, this.scores.get(name) + salvageCount);
+      }
     }
   }
 
@@ -203,7 +206,7 @@ class World {
         int row = position.row + rowIndex - 1;
 
         IReadonlyCell cell = this.isInRange(col, row)?
-                                this.grid[col][row]: null;
+          this.grid[col][row]: null;
         scanResults[colIndex][rowIndex] = cell;
       }
     }
@@ -277,9 +280,9 @@ class World {
     ScoreRecord[] scoreRecords = new ScoreRecord[this.scores.size()];
 
     int index = 0;
-    for(String key : this.scores.keySet()) {
-        scoreRecords[index] = new ScoreRecord(key, this.scores.get(key));
-        index++;
+    for (String key : this.scores.keySet()) {
+      scoreRecords[index] = new ScoreRecord(key, this.scores.get(key));
+      index++;
     }
     return scoreRecords;
   }
