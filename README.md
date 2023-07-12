@@ -79,7 +79,7 @@ Possible actions are:
 
    return new MoveRequest(-1, 0); // Move one column to the left
 
-   return new MoveRequest(-1, 1); // Move one step diagonally to the left top
+   return new MoveRequest(-1, 1); // Move one step diagonally to the left bottom
    ```
 
 1. SONAR Scan (SonarRequest): Request a scan of the immediate surroundings. Scan
@@ -112,7 +112,7 @@ Possible actions are:
    salvage ship, you will deposit the salvage. Easy dubs.
 
    ```
-   return new DepositSalvageRequest(-1, -1); // Try to pick up salvage from cell diagonally to the bottom and left
+   return new DepositSalvageRequest(-1, -1); // Try to deposit salvage from cell diagonally to the bottom and left
    ```
 
 ## Getting Started
@@ -132,19 +132,19 @@ and enthusiasm.
 ### Prerequisites
 
 1. Download and install Processing from [here](https://processing.org/download).
-1. Ensure that you have git installed on your workstation. See
+2. Ensure that you have git installed on your workstation. See
    [git installation instructions](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
    for more information.
-1. Clone the project to an appropriate location on your workstation
+3. Clone the project to an appropriate location on your workstation
 ```
 git clone https://github.com/vamship/undersea_explorer
 ```
-1. Launch Processing and open the project:
+4. Launch Processing and open the project:
   - Start the Processing IDE
   - Click on File -> Open
   - Navigate to the folder that contains this project (cloned in the step above)
   - Click on `undersea_explorer.pde`
-1. Once the project has been loaded, run it by clicking on the "Play" button at
+5. Once the project has been loaded, run it by clicking on the "Play" button at
    the top left
 
 ## Coding Your Submersible
@@ -159,6 +159,8 @@ The simplest way to work on this project is to make modifications to the `Pillar
 of Autumn` submersible. You can do this by editing the `PillarOfAutumn.pde` file
 (you won't see the `.pde` extension when you're using the IDE), and making the
 changes that you want to make.
+
+###### Rishi did all of this. Copyright 2023.
 
 > TODO: Advanced use cases and scenarios still need to be documented. It's
 > coming soon
